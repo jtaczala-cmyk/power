@@ -1,0 +1,22 @@
+{
+  "name": "POWER",
+  "short_name": "POWER",
+  "lang": "en",
+  "start_url": "/power/",
+  "scope": "/power/",
+  "display": "standalone",
+  "background_color": "#12110f",
+  "theme_color": "#12110f",
+  "icons": [
+    {
+      "src": "/power/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/power/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
