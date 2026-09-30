@@ -21,38 +21,38 @@
   "soundOff": "Sound off",
   "start": "One minute. The boss is counting.",
   "random": [
-   "Boss: this was due yesterday!",
-   "Out of materials! The supplier opens Monday.",
-   "Someone “borrowed” my drill again…",
-   "Safety inspector on site. Look like you’re following the plan.",
-   "Who left this cable live?!",
-   "Foreman: looks level enough to me.",
-   "The concrete mixer waits for no one!",
-   "The drawings changed. Again.",
-   "“It’s always been like that.” — the last crew",
-   "Tea break soon. Probably.",
-   "Who moved the scaffolding?",
-   "Delivery was due at 7:00. It’s 11:30."
+   "Rule 1: disconnect completely — from all sources of supply.",
+   "Rule 2: secure against re-connection — lock and tag.",
+   "Rule 3: verify absence of operating voltage — on all phases.",
+   "Rule 4: earth and short-circuit — always on HV, on LV after risk assessment.",
+   "Rule 5: provide protection against adjacent live parts.",
+   "Every job has a nominated person in control of the work activity (AFA/LFS).",
+   "Before work: risk assessment and a safe job analysis (SJA).",
+   "Test your voltage detector just before and just after use.",
+   "Can it be isolated? Work dead. Live working only with training and procedures.",
+   "Can’t do it safely? Stop the job and report it.",
+   "Report deviations and near misses — every time.",
+   "Before re-energising: warn everyone, remove the earths, clear the area."
   ],
   "hurt": [
-   "Ouch! That wasn’t in the risk assessment.",
-   "Voltage tester says: live. On you.",
-   "Electricity doesn’t forgive. Neither does the boss."
+   "Electric shock? Cut the power before you touch the casualty.",
+   "Not breathing? Call 113 (Norway) or 112 and start CPR.",
+   "Current through the body? Always see a doctor — and report it."
   ],
   "medkit": [
-   "First aid kit! A plaster fixes everything.",
-   "Health & safety would be proud."
+   "First aid for electrical accidents: train every year.",
+   "Before work: know where the first aid kit and AED are."
   ],
   "tool": [
-   "New tool! I’ll give it back on Friday. Maybe.",
-   "Finders keepers. Site rules."
+   "New tool? Check the insulation and the voltage rating.",
+   "Voltage detector to EN 61243-3 — not just any multimeter."
   ],
   "armor": [
-   "Hard hat on. Mum can relax."
+   "PPE matched to the risk — including arc flash."
   ],
   "coffee": [
-   "Coffee from the flask. +10 motivation.",
-   "No coffee, no construction."
+   "Breaks are safety too: fatigue causes mistakes.",
+   "Back from the break? Check the safety measures are still in place."
   ],
   "titles": [
    "Apprentice broom operator",
@@ -62,14 +62,14 @@
    "Legend of the fuse box"
   ],
   "titleLabel": "Your title:",
-  "newHigh": "new record! The boss almost smiled.",
+  "newHigh": "new record! On the job: safety before speed.",
   "tips": [
-   "Tip: a live cable doesn’t bite. It kicks.",
-   "Tip: hard hats go on your head, not your elbow.",
-   "Tip: not sure what to do? Carry a plank. You’ll always look busy.",
-   "Tip: “ASAP” means yesterday.",
-   "Tip: isolate, lock out and verify absence of voltage first. Be a hero later.",
-   "Tip: measure twice, cut once, blame the drawings."
+   "Principle: the five safety rules — disconnect completely, secure against re-connection, verify absence of voltage, earth and short-circuit, protect against adjacent live parts.",
+   "Principle: always at least two safety barriers — if one fails, the other still protects you.",
+   "Principle: clear roles — a person in control of the installation and a person in control of the work activity (AFA/LFS).",
+   "Principle: before work, get the installation details, assess the risk and do an SJA.",
+   "Principle: test the voltage detector immediately before and after verifying absence of voltage.",
+   "This game is not an FSE course. Refresh FSE and first-aid training every year (max 12 months)."
   ]
  }
 };
@@ -257,7 +257,7 @@
   }
   function popup(text, force) {
     var now = Date.now();
-    if (!force && now - lastPop < 4000) return;
+    if (!force && now - lastPop < 4000) return; if (!force && now < (window.__smBusyUntil || 0)) return;
     lastPop = now;
     var el = ensurePop();
     el.textContent = text;
@@ -265,7 +265,7 @@
     el.style.transform = "translate(-50%,0)";
     SFX.pop();
     clearTimeout(popTimer);
-    popTimer = setTimeout(function () { el.style.opacity = "0"; el.style.transform = "translate(-50%,-8px)"; }, 2800);
+    popTimer = setTimeout(function () { el.style.opacity = "0"; el.style.transform = "translate(-50%,-8px)"; }, Math.min(6000, 2800 + Math.max(0, String(text).length - 40) * 45));
   }
   window.__extrasPopup = popup;
 
@@ -350,7 +350,7 @@
     clearTimeout(randomTimer);
     randomTimer = setTimeout(function () {
       var st = window.__store && window.__store.getState();
-      if (st && st.phase === "playing") popup(pick(T.random));
+      if (false) popup(pick(T.random));
       scheduleRandom();
     }, 11000 + Math.random() * 7000);
   }
@@ -513,3 +513,96 @@
   if (document.readyState === "complete") setTimeout(st, 300); else window.addEventListener("load", function () { setTimeout(st, 300); });
 })();
 /* ---- end leaderboard notice ---- */
+/* safety-maxims: 4 animated FSE/HMS principles per round + "learned" list on the game-over card */
+(function () {
+  var CFGM = {"game": "power", "list": ["Rule 1: disconnect completely — from all sources of supply.", "Rule 2: secure against re-connection — lock and tag.", "Rule 3: verify absence of operating voltage — on all phases.", "Rule 4: earth and short-circuit — always on HV, on LV after risk assessment.", "Rule 5: provide protection against adjacent live parts.", "Every job has a nominated person in control of the work activity (AFA/LFS).", "Before work: risk assessment and a safe job analysis (SJA).", "Test your voltage detector just before and just after use.", "Can it be isolated? Work dead. Live working only with training and procedures.", "Can’t do it safely? Stop the job and report it.", "Report deviations and near misses — every time.", "Before re-energising: warn everyone, remove the earths, clear the area."], "icons": ["⚡", "🔒", "🔍", "⚡", "🛡️", "👷", "📝", "🔎", "🔌", "✋", "📣", "⚠️"], "ui": {"kicker": "Safety principle · FSE", "learned": "Today you learned:", "progress": "You know {n} of {t} principles. Keep playing to see them all.", "done": "You have seen all {t} principles. Next rounds repeat them.", "note": "This does not replace the FSE course."}};
+  var L = CFGM.list, U = CFGM.ui, KEY = CFGM.game + "-maxims-v1", AT = [54, 41, 28, 15], SHOW = 4800;
+  function st() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
+  function save(o) { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} }
+  var css = document.createElement("style");
+  css.textContent = "#sm-ban{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 172px);z-index:61;width:min(92vw,380px);box-sizing:border-box;display:flex;gap:10px;align-items:flex-start;padding:10px 12px 11px;border-radius:14px;background:linear-gradient(135deg,rgba(20,24,22,.9),rgba(12,14,13,.9));border:1.5px solid #facc15;box-shadow:0 8px 28px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.4);color:#f5f1e8;pointer-events:none;opacity:0;transform:translate(-50%,-14px) scale(.96);transition:opacity .35s ease,transform .45s cubic-bezier(.2,1.4,.4,1);overflow:hidden}" +
+    "#sm-ban.on{opacity:1;transform:translate(-50%,0) scale(1)}" +
+    "#sm-ban .i{flex:0 0 34px;height:34px;border-radius:9px;background:#facc15;color:#1c1917;display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1;animation:smPulse 1.2s ease-in-out 2}" +
+    "#sm-ban .k{font:600 10.5px/1.2 'Oswald','IBM Plex Sans',system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#facc15;margin:1px 0 3px}" +
+    "#sm-ban .t{font:600 14.5px/1.35 'IBM Plex Sans',system-ui,sans-serif;margin:0}" +
+    "#sm-ban .bar{position:absolute;left:0;bottom:0;height:3px;background:#facc15;width:100%;transform-origin:left;transform:scaleX(1)}" +
+    "#sm-ban.on .bar{transition:transform " + (SHOW / 1000) + "s linear;transform:scaleX(0)}" +
+    "@keyframes smPulse{50%{transform:scale(1.12)}}" +
+    ".sm-learn{margin:.6rem 0 0;padding:9px 11px;border-radius:12px;border:1px solid rgba(250,204,21,.5);background:rgba(250,204,21,.07);text-align:left}" +
+    ".sm-learn h3{margin:0 0 5px;font:600 12px/1.2 'Oswald','IBM Plex Sans',system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#facc15}" +
+    ".sm-learn ul{margin:0;padding:0 0 0 1.05em;font:400 12.5px/1.4 'IBM Plex Sans',system-ui,sans-serif;color:#e7e5e4}" +
+    ".sm-learn li{margin:0 0 3px}.sm-learn p{margin:5px 0 0;font:400 11px/1.35 'IBM Plex Sans',system-ui,sans-serif;color:#a8a29e}" +
+    "@media (prefers-reduced-motion:reduce){#sm-ban,#sm-ban.on{transition:opacity .2s}#sm-ban .i{animation:none}}";
+  (document.head || document.documentElement).appendChild(css);
+  var ban = null, hideT = 0, round = null;
+  function el() {
+    if (ban && document.body.contains(ban)) return ban;
+    ban = document.createElement("div"); ban.id = "sm-ban"; ban.setAttribute("role", "status"); ban.setAttribute("aria-live", "polite");
+    ban.innerHTML = '<div class="i" aria-hidden="true">\u26A1</div><div><p class="k"></p><p class="t"></p></div><div class="bar"></div>';
+    document.body.appendChild(ban); return ban;
+  }
+  function show(i, n) {
+    var b = el(); b.classList.remove("on"); void b.offsetWidth;
+    b.querySelector(".k").textContent = U.kicker + " \u00B7 " + (i + 1) + "/" + L.length;
+    b.querySelector(".t").textContent = L[i];
+    b.querySelector(".i").textContent = CFGM.icons[i] || "\u26A1";
+    requestAnimationFrame(function () { b.classList.add("on"); });
+    // keep the joke/context pop-up out of the way while a principle is on screen
+    var p = document.getElementById("extras-pop"); if (p) p.style.opacity = "0";
+    window.__smBusyUntil = Date.now() + SHOW + 400;
+    clearTimeout(hideT); hideT = setTimeout(hide, SHOW);
+  }
+  function hide() { if (ban) ban.classList.remove("on"); }
+  function startRound() {
+    var s = st(), idx = (s.next || 0) % L.length, pick = [];
+    for (var k = 0; k < AT.length; k++) pick.push((idx + k) % L.length);
+    round = { pick: pick, shown: [], step: 0, pending: false };
+  }
+  function tick(s) {
+    if (!round || s.phase !== "playing") return;
+    if (round.step >= round.pick.length) return;
+    var t = typeof s.timeLeft === "number" ? s.timeLeft : 60;
+    if (t <= AT[round.step] && (!s.banner || t <= AT[round.step] - 3)) {
+      var i = round.pick[round.step++]; round.shown.push(i); show(i, round.step);
+      var o = st(); o.seen = o.seen || []; if (o.seen.indexOf(i) < 0) o.seen.push(i); o.next = (i + 1) % L.length; save(o);
+    }
+  }
+  function learned() {
+    if (!round || !round.shown.length) return;
+    var shown = round.shown.slice(), tries = 0;
+    (function attempt() {
+      var card = null;
+      document.querySelectorAll(".z-30").forEach(function (c) { if (!card && /\d/.test(c.textContent || "") && c.querySelector("button")) card = c; });
+      var anchor = card && (card.querySelector(".extras-title") || card.querySelector("h2") || card.querySelector("h1"));
+      if (!anchor || !card.querySelector(".extras-title")) { if (tries++ < 40) setTimeout(attempt, 100); return; }
+      if (card.querySelector(".sm-learn")) return;
+      var d = document.createElement("div"); d.className = "sm-learn";
+      var h = document.createElement("h3"); h.textContent = U.learned; d.appendChild(h);
+      var ul = document.createElement("ul");
+      shown.forEach(function (i) { var li = document.createElement("li"); li.textContent = L[i]; ul.appendChild(li); });
+      d.appendChild(ul);
+      var n = (st().seen || []).length, p = document.createElement("p");
+      p.textContent = (n >= L.length ? U.done : U.progress).replace("{n}", n).replace("{t}", L.length) + " " + U.note;
+      d.appendChild(p);
+      anchor.after(d);
+    })();
+  }
+  var hooked = false, prevPhase = null;
+  (function wait() {
+    var store = window.__store;
+    if (!store) { setTimeout(wait, 300); return; }
+    if (hooked) return; hooked = true;
+    prevPhase = store.getState().phase;
+    store.subscribe(function (s) {
+      if (s.phase !== prevPhase) {
+        if (s.phase === "playing" && prevPhase !== "paused") startRound();
+        if (s.phase === "over") { clearTimeout(hideT); hide(); learned(); }
+        if (s.phase !== "playing" && s.phase !== "paused") { if (s.phase !== "over") { hide(); } }
+        if (s.phase === "paused") hide();
+        prevPhase = s.phase;
+      }
+      tick(s);
+    });
+  })();
+})();
+/* end safety-maxims */
