@@ -35,24 +35,24 @@
    "Before re-energising: warn everyone, remove the earths, clear the area."
   ],
   "hurt": [
-   "Electric shock? Cut the power before you touch the casualty.",
-   "Not breathing? Call 113 (Norway) or 112 and start CPR.",
-   "Current through the body? Always see a doctor — and report it."
+   "Cut the power first",
+   "999 – ambulance",
+   "Electric shock? Always see a doctor"
   ],
   "medkit": [
-   "First aid for electrical accidents: train every year.",
-   "Before work: know where the first aid kit and AED are."
+   "First aid – practise yearly",
+   "Defibrillator – know where"
   ],
   "tool": [
-   "New tool? Check the insulation and the voltage rating.",
-   "Voltage detector to EN 61243-3 — not just any multimeter."
+   "Check the insulation",
+   "Use a proper voltage tester"
   ],
   "armor": [
-   "PPE matched to the risk — including arc flash."
+   "PPE on"
   ],
   "coffee": [
-   "Breaks are safety too: fatigue causes mistakes.",
-   "Back from the break? Check the safety measures are still in place."
+   "Tired? Take a break",
+   "After a break: check the locks"
   ],
   "titles": [
    "Apprentice broom operator",
