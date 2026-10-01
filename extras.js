@@ -27,7 +27,7 @@
    "Rule 4: earth and short-circuit — always on HV, on LV after risk assessment.",
    "Rule 5: provide protection against adjacent live parts.",
    "Every job has a nominated person in control of the work activity (AFA/LFS).",
-   "Before work: risk assessment and a safe job analysis (SJA).",
+   "Before work: do a risk assessment.",
    "Test your voltage detector just before and just after use.",
    "Can it be isolated? Work dead. Live working only with training and procedures.",
    "Can’t do it safely? Stop the job and report it.",
@@ -48,7 +48,7 @@
    "Use a proper voltage tester"
   ],
   "armor": [
-   "PPE on"
+   "H&S – PPE on"
   ],
   "coffee": [
    "Tired? Take a break",
@@ -67,9 +67,9 @@
    "Principle: the five safety rules — disconnect completely, secure against re-connection, verify absence of voltage, earth and short-circuit, protect against adjacent live parts.",
    "Principle: always at least two safety barriers — if one fails, the other still protects you.",
    "Principle: clear roles — a person in control of the installation and a person in control of the work activity (AFA/LFS).",
-   "Principle: before work, get the installation details, assess the risk and do an SJA.",
+   "Principle: before work, get the installation details and do a risk assessment.",
    "Principle: test the voltage detector immediately before and after verifying absence of voltage.",
-   "This game is not an FSE course. Refresh FSE and first-aid training every year (max 12 months)."
+   "This game is not electrical safety training. Refresh electrical safety (EWR) and first-aid training every year (max 12 months)."
   ]
  }
 };
