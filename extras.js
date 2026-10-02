@@ -47,7 +47,11 @@
    "Use a proper voltage tester"
   ],
   "armor": [
-   "H&S – PPE on"
+   "H&S – PPE on",
+   "Helmet, glasses, gloves",
+   "Damaged kit? Replace it",
+   "Safety boots – always on",
+   "Safety gloves – always on"
   ],
   "coffee": [
    "Tired? Take a break",
