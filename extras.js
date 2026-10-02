@@ -36,8 +36,7 @@
   ],
   "hurt": [
    "Cut the power first",
-   "999 – ambulance",
-   "Electric shock? Always see a doctor"
+   "999 – ambulance"
   ],
   "medkit": [
    "First aid – practise yearly",
