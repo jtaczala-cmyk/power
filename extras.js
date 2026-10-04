@@ -36,7 +36,7 @@
   ],
   "hurt": [
    "Cut the power first",
-   "999 – ambulance"
+   "113 – ambulance"
   ],
   "medkit": [
    "First aid – practise yearly",

@@ -9,7 +9,7 @@
    Hooks window.__phaserGame / window.__store. */
 (function () {
   "use strict";
-  var CFG = {"slogans": [{"t": "999 – ambulance", "k": "amb", "e": "🚑"}, {"t": "Lock out, tag out", "k": "lock", "e": "🔒"}, {"t": "Test before touch", "k": "meter", "e": "🔎"}, {"t": "H&S – PPE on", "k": "helmet", "e": "⛑️"}, {"t": "RA – risk assessment", "k": "sja", "e": "📋"}, {"t": "999 – fire", "k": "fire", "e": "🚒"}, {"t": "Stop if in doubt", "k": "stop", "e": "🛑"}, {"t": "EWR – safe isolation", "k": "steps", "e": "🔌"}, {"t": "112 – police", "k": "police", "e": "🚓"}, {"t": "Defibrillator – know where", "k": "aed", "e": "❤️"}, {"t": "Near miss – report it", "k": "ruh", "e": "📣"}, {"t": "Test the tester before/after", "k": "test", "e": "✅"}, {"t": "Keep clear of live parts", "k": "dist", "e": "⚡"}, {"t": "Electric shock? Cut the power", "k": "breaker", "e": "🔌"}, {"t": "Earth and short-circuit", "k": "ground", "e": "🔗"}, {"t": "First aid – practise yearly", "k": "generic", "e": "🩹"}], "ui": {"learned": "Today you learned:", "progress": "You have seen {n} of {t} safety reminders. Keep playing to see them all.", "done": "You have seen all {t} safety reminders. Next rounds repeat them.", "note": "This does not replace EWR training."}};
+  var CFG = {"slogans": [{"t": "113 – ambulance", "k": "amb", "e": "🚑"}, {"t": "Lock out, tag out", "k": "lock", "e": "🔒"}, {"t": "Test before touch", "k": "meter", "e": "🔎"}, {"t": "H&S – PPE on", "k": "helmet", "e": "⛑️"}, {"t": "RA – risk assessment", "k": "sja", "e": "📋"}, {"t": "110 – fire", "k": "fire", "e": "🚒"}, {"t": "Stop if in doubt", "k": "stop", "e": "🛑"}, {"t": "EWR – safe isolation", "k": "steps", "e": "🔌"}, {"t": "112 – police", "k": "police", "e": "🚓"}, {"t": "Defibrillator – know where", "k": "aed", "e": "❤️"}, {"t": "Near miss – report it", "k": "ruh", "e": "📣"}, {"t": "Test the tester before/after", "k": "test", "e": "✅"}, {"t": "Keep clear of live parts", "k": "dist", "e": "⚡"}, {"t": "Electric shock? Cut the power", "k": "breaker", "e": "🔌"}, {"t": "Earth and short-circuit", "k": "ground", "e": "🔗"}, {"t": "First aid – practise yearly", "k": "generic", "e": "🩹"}], "ui": {"learned": "Today you learned:", "progress": "You have seen {n} of {t} safety reminders. Keep playing to see them all.", "done": "You have seen all {t} safety reminders. Next rounds repeat them.", "note": "This does not replace EWR training."}};
   var L = CFG.slogans, U = CFG.ui, KEY = "power-slogans-v1";
   var mqR = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)"), reduced = !!(mqR && mqR.matches);
   try { mqR.addEventListener("change", function () { reduced = mqR.matches; }); } catch (e) {}
@@ -158,7 +158,7 @@
       g.fillStyle = "#111827"; g.beginPath(); g.arc(w[0], w[1], 5.2, 0, 6.283); g.fill(); g.fillStyle = "#9ca3af"; g.beginPath(); g.arc(w[0], w[1], 2.2, 0, 6.283); g.fill();
       g.strokeStyle = "#111827"; g.lineWidth = .9; for (var k = 0; k < 3; k++) { var a = roll + k * 2.094; g.beginPath(); g.moveTo(w[0], w[1]); g.lineTo(w[0] + Math.cos(a) * 2.2, w[1] + Math.sin(a) * 2.2); g.stroke(); }
     });
-    var lbl = kind === "amb" ? "999" : kind === "fire" ? "999" : "POLICE", lx = kind === "police" ? 0 : -8, ly = kind === "police" ? -11.5 : -12;
+    var lbl = kind === "amb" ? "113" : kind === "fire" ? "110" : "POLICE", lx = kind === "police" ? 0 : -8, ly = kind === "police" ? -11.5 : -12;
     g.save(); g.translate(lx, ly); g.scale(dir, 1); g.font = "600 " + (kind === "police" ? 4.6 : 8.5) + "px " + FONT; g.textAlign = "center"; g.textBaseline = "middle";
     g.fillStyle = kind === "fire" ? "#fff" : kind === "police" ? "#1e3a8a" : "#dc2626"; if (kind !== "police") g.fillText(lbl, 0, 0); else g.fillText(lbl, 0, -5.5);
     g.restore();
@@ -222,8 +222,8 @@
     } };
   }
   var THEMES = {
-    amb: function () { return emergency("amb", "999", "AMBULANCE", "rgba(59,130,246,.95)", "rgba(239,68,68,.95)", 1); },
-    fire: function () { return emergency("fire", "999", "FIRE", "rgba(239,68,68,.95)", "rgba(251,146,60,.95)", -1); },
+    amb: function () { return emergency("amb", "113", "AMBULANCE", "rgba(59,130,246,.95)", "rgba(239,68,68,.95)", 1); },
+    fire: function () { return emergency("fire", "110", "FIRE", "rgba(239,68,68,.95)", "rgba(251,146,60,.95)", -1); },
     police: function () { return emergency("police", "112", "POLICE", "rgba(59,130,246,.95)", "rgba(147,197,253,.95)", 1); },
     lock: function () { return piece(2.8, function (t, Lo) {
       var u = Lo.u, cl = eIn(seg(t, .5, .72)), x = Lo.cx - 4 * u, y = Lo.ay + 2 * u;
