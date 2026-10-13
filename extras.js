@@ -527,7 +527,7 @@
 /* ---- leaderboard notice (privacy, 2026-09-30) ---- */
 (function () {
   "use strict";
-  var TXT = "Your nickname and score will appear on the public online leaderboard. Don’t use your real full name or e-mail.", LINK = "Privacy", BOX = "Show my score on the online leaderboard", HREF = "/power/privacy/", KEY = "lb-online-off";
+  var TXT = "Your nickname and score will appear on the public online leaderboard. Don’t use your real full name or e-mail.", LINK = "Privacy", BOX = "I am 16 or older (18 or older in India) and want my nickname, score, KO count and wave shown on the online leaderboard", HREF = "/power/privacy/", KEY = "lb-online-off";
   function on() { return !!(window.__lb && window.__lb.online !== undefined && (window.LEADERBOARD_CONFIG || {}).supabaseUrl); }
   function tick() {
     if (!on()) return;
