@@ -61,7 +61,7 @@
    "Apprentice broom operator",
    "Labourer on probation",
    "Foreman",
-   "Certified electrician",
+   "On full power",
    "Legend of the fuse box"
   ],
   "titleLabel": "Your title:",
