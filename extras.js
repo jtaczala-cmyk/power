@@ -19,7 +19,7 @@
  "text": {
   "soundOn": "Sound on",
   "soundOff": "Sound off",
-  "start": "One minute. The boss is counting.",
+  "start": "One minute. Time is flying.",
   "random": [
    "Rule 1: disconnect completely — from all sources of supply.",
    "Rule 2: secure against re-connection — lock and tag.",
@@ -58,9 +58,9 @@
    "After a break: check the locks"
   ],
   "titles": [
-   "Apprentice broom operator",
-   "Labourer on probation",
-   "Foreman",
+   "First step",
+   "Getting steady",
+   "Steady hand",
    "On full power",
    "Legend of the fuse box"
   ],

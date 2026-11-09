@@ -46,7 +46,7 @@
   if (NO_BUBBLES) css.textContent += ".top-\\[38\\%\\]{display:none!important}";
 
   /* ---------------- 1) enemy introductions (corner chip, once per type per round) ---------------- */
-  var DESC = {"plumber": ["Plumber", "fast, gets close"], "clerk": ["Office clerk", "throws drawings"], "bricklayer": ["Bricklayer", "throws bricks"], "welder": ["Welder", "welding sparks"], "foreman": ["The Foreman", "shockwave – keep your distance"], "manager": ["The Site Manager", "final boss"]};
+  var DESC = {"plumber": ["Fast", "fast, gets close"], "clerk": ["Offices", "throws drawings"], "bricklayer": ["Bricks", "throws bricks"], "welder": ["Sparks", "scatters sparks"], "foreman": ["Wave", "shockwave – keep your distance"], "manager": ["Last one", "shows up at the end"]};
   var chip = null, chipQ = [], chipBusy = false, seenRoles = {}, coachUntil = 0;
   function chipEl() {
     if (chip && document.body.contains(chip)) return chip;
