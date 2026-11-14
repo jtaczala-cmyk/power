@@ -630,3 +630,230 @@ if (on) {
     + ".qrl-scroll{overflow:auto}";
   (document.head || document.documentElement).appendChild(st);
 })();
+
+/* ---- game-over result postcard: share the score, not the generic blurb ---- */
+(function () {
+  "use strict";
+  var LINK = "stop60.no/strom";
+  var busy = false;
+
+  function state() {
+    return window.__store && window.__store.getState && window.__store.getState();
+  }
+  function phase() {
+    var s = state();
+    return s && s.phase;
+  }
+  function n0(v) {
+    v = +v;
+    if (!isFinite(v) || v < 0) return 0;
+    return Math.floor(v);
+  }
+  function resultText() {
+    var s = state() || {};
+    var score = n0(s.score), kills = n0(s.kills), high = n0(s.highScore);
+    var lines = ["POWER", "\u26A1 " + score + " pts \u00b7 " + kills + " KOs"];
+    if (score > 0 && score >= high) lines.push("\uD83C\uDFC6 New record");
+    lines.push(LINK);
+    return lines.join("\n");
+  }
+  function trackShare() {
+    try { if (typeof window.__track === "function") window.__track("share"); } catch (e) {}
+  }
+  function overRoot() {
+    return document.querySelector(".goscroll.z-30") || document.querySelector(".goscroll");
+  }
+  function scoreLine(root) {
+    var ps = root.querySelectorAll("p");
+    for (var i = 0; i < ps.length; i++) {
+      var t = ps[i].textContent || "";
+      if (/pts\s*·/.test(t) && /\bKO\b/.test(t)) return ps[i];
+    }
+    return null;
+  }
+  function restartButton(root) {
+    var buttons = root.querySelectorAll("button");
+    for (var i = 0; i < buttons.length; i++) {
+      if ((buttons[i].textContent || "").replace(/\s+/g, " ").trim() === "Go again") return buttons[i];
+    }
+    return null;
+  }
+  function shareButton(root) {
+    var buttons = root.querySelectorAll("button");
+    for (var i = 0; i < buttons.length; i++) {
+      var b = buttons[i];
+      if (b.querySelector("svg.lucide-share")) return b;
+      var t = (b.textContent || "").replace(/\s+/g, " ").trim();
+      if (t === "Share with friends" || t === "Share result" || t === "Copied") return b;
+    }
+    return null;
+  }
+  function labelOf(btn) {
+    return (btn.textContent || "").replace(/\s+/g, " ").trim();
+  }
+  function setShareLabel(btn, label) {
+    var walker = document.createTreeWalker(btn, NodeFilter.SHOW_TEXT, null);
+    var node;
+    while ((node = walker.nextNode())) {
+      if (/\S/.test(node.nodeValue)) { node.nodeValue = label; return; }
+    }
+    btn.appendChild(document.createTextNode(label));
+  }
+  function relabel(btn) {
+    if (!btn) return;
+    if (btn.getAttribute("data-share-note") === "1") {
+      if (labelOf(btn) !== "Copied") setShareLabel(btn, "Copied");
+      return;
+    }
+    if (labelOf(btn) !== "Share result") setShareLabel(btn, "Share result");
+  }
+  function noteCopied() {
+    var root = overRoot();
+    var btn = root && shareButton(root);
+    if (!btn) return;
+    btn.setAttribute("data-share-note", "1");
+    setShareLabel(btn, "Copied");
+    setTimeout(function () {
+      btn.removeAttribute("data-share-note");
+      if (document.body.contains(btn)) setShareLabel(btn, "Share result");
+    }, 1600);
+  }
+  function legacyCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.cssText = "position:fixed;top:0;left:0;width:2em;height:2em;opacity:0";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) {}
+    ta.remove();
+    return ok;
+  }
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return legacyCopy(text); });
+    }
+    return Promise.resolve(legacyCopy(text));
+  }
+  function promptCopy(text) {
+    var r = null;
+    try { r = window.prompt("Copy the result", text); } catch (e) { return false; }
+    return r !== null;
+  }
+  function shareResult() {
+    if (busy || phase() !== "over") return;
+    var text = resultText();
+    busy = true;
+    function finish(ok, copied) {
+      busy = false;
+      if (!ok) return;
+      trackShare();
+      if (copied) noteCopied();
+    }
+    function fallback() {
+      copyText(text).then(function (copied) {
+        if (copied) { finish(true, true); return; }
+        finish(promptCopy(text), true);
+      }, function () { finish(promptCopy(text), true); });
+    }
+    if (typeof navigator.share === "function") {
+      var pending;
+      try { pending = navigator.share({ title: "POWER", text: text }); }
+      catch (e) {
+        if (e && e.name === "AbortError") { busy = false; return; }
+        fallback();
+        return;
+      }
+      Promise.resolve(pending).then(function () { finish(true, false); }, function (e) {
+        if (e && e.name === "AbortError") { busy = false; return; }
+        fallback();
+      });
+      return;
+    }
+    fallback();
+  }
+  function ensureCss() {
+    if (document.getElementById("overGrid-css")) return;
+    var st = document.createElement("style");
+    st.id = "overGrid-css";
+    st.textContent = "#overGrid{display:block;box-sizing:border-box;width:100%;max-width:100%;margin:12px auto 0;padding:10px 12px;"
+      + "background:#12110f;border:1px solid rgba(45,212,191,.55);border-radius:12px;"
+      + "font:600 16px/1.45 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;"
+      + "text-align:center;letter-spacing:.02em;cursor:pointer;color:#f5f1e8;"
+      + "-webkit-user-select:text;user-select:text}"
+      + "#overGrid:focus{outline:2px solid #2dd4bf;outline-offset:2px}";
+    (document.head || document.documentElement).appendChild(st);
+  }
+  function place(root, grid) {
+    var score = scoreLine(root);
+    if (score && score.parentNode) {
+      if (score.nextSibling !== grid) score.parentNode.insertBefore(grid, score.nextSibling);
+      return;
+    }
+    var again = restartButton(root);
+    if (again && again.parentNode) {
+      if (grid.nextSibling !== again) again.parentNode.insertBefore(grid, again);
+    }
+  }
+  var mo = null, moRoot = null;
+  function arm(root) {
+    if (!window.MutationObserver) return;
+    if (mo && moRoot === root) return;
+    if (mo) mo.disconnect();
+    moRoot = root;
+    mo = new MutationObserver(function () { sync(); });
+    mo.observe(root, { childList: true, subtree: true, characterData: true });
+  }
+  var painting = false;
+  function sync() {
+    if (painting) return;
+    painting = true;
+    try {
+      if (phase() !== "over") {
+        var old = document.getElementById("overGrid");
+        if (old && old.parentNode) old.parentNode.removeChild(old);
+        if (mo) { mo.disconnect(); mo = null; moRoot = null; }
+        return;
+      }
+      var root = overRoot();
+      if (!root) return;
+      ensureCss();
+      var grid = document.getElementById("overGrid");
+      if (!grid || !root.contains(grid)) {
+        grid = document.createElement("pre");
+        grid.id = "overGrid";
+        grid.setAttribute("role", "button");
+        grid.tabIndex = 0;
+        grid.setAttribute("data-no-stick", "");
+      }
+      place(root, grid);
+      var text = resultText();
+      if (grid.textContent !== text) grid.textContent = text;
+      relabel(shareButton(root));
+      arm(root);
+    } finally { painting = false; }
+  }
+  document.addEventListener("click", function (e) {
+    if (phase() !== "over") return;
+    var root = overRoot();
+    if (!root || !e.target || !e.target.closest) return;
+    var grid = e.target.closest("#overGrid");
+    var btn = e.target.closest("button");
+    if (!grid && !(btn && root.contains(btn) && btn === shareButton(root))) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    shareResult();
+  }, true);
+  document.addEventListener("keydown", function (e) {
+    if (phase() !== "over") return;
+    if (!e.target || e.target.id !== "overGrid") return;
+    if (e.key !== "Enter" && e.key !== " ") return;
+    e.preventDefault();
+    shareResult();
+  }, true);
+  function boot() { sync(); setInterval(sync, 400); }
+  if (document.readyState === "complete") boot(); else window.addEventListener("load", boot);
+})();
