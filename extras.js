@@ -634,7 +634,7 @@ if (on) {
 /* ---- game-over result postcard: share the score, not the generic blurb ---- */
 (function () {
   "use strict";
-  var LINK = "stop60.no/strom";
+  var LINK = "stop60.no/power";
   var busy = false;
 
   function state() {
